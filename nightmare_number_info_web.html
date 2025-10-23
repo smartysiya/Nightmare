@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIGHTMARE - Number Information</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d0d0d;
+            color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        header {
+            background-color: #1a1a1a;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            color: #ff4d4d;
+        }
+        .container {
+            margin-top: 40px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+        input[type=text] {
+            width: 80%;
+            padding: 12px;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e60000;
+        }
+        .result {
+            margin-top: 30px;
+            text-align: left;
+            background-color: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            word-wrap: break-word;
+        }
+        footer {
+            margin-top: 50px;
+            padding: 10px 0;
+            width: 100%;
+            text-align: center;
+            background-color: #1a1a1a;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+        }
+        footer a {
+            color: #ff4d4d;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NIGHTMARE - Number Information</h1>
+    </header>
+
+    <div class="container">
+        <p>Enter a number to fetch information using NIGHTMARE API:</p>
+        <input type="text" id="numberInput" placeholder="Enter number...">
+        <button onclick="lookupNumber()">Lookup Number</button>
+
+        <div class="result" id="resultBox"></div>
+    </div>
+
+    <footer>
+        Developed by NIGHTMARE | <a href="https://github.com/yourusername">GitHub</a>
+    </footer>
+
+    <script>
+        const API_BASE = "https://demon.taitanx.workers.dev/?mobile=";
+
+        async function lookupNumber() {
+            const number = document.getElementById('numberInput').value.trim();
+            const resultBox = document.getElementById('resultBox');
+            if (!number) {
+                resultBox.innerHTML = '<span style="color:red;">Please enter a valid number!</span>';
+                return;
+            }
+            resultBox.innerHTML = 'Fetching data...';
+            try {
+                const response = await fetch(API_BASE + encodeURIComponent(number));
+                const data = await response.json();
+                resultBox.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultBox.innerHTML = `<span style="color:red;">Error fetching data: ${error}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
